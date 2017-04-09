@@ -35,14 +35,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author matruskan
  */
+@XmlRootElement
 @Entity
 @NamedQueries(
-        @NamedQuery(name = "list", query = "SELECT OBJECT(course) FROM Course course WHERE course.creator = :creator AND name LIKE :name ORDER BY :columnName")
+        @NamedQuery(name = "list", query = "SELECT OBJECT(course) FROM Course course WHERE course.creator = :creator AND course.name LIKE :name ORDER BY :orderBy")
 )
 public class Course implements Serializable {
     @Id

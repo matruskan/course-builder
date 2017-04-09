@@ -28,11 +28,13 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author matruskan
  */
+@XmlRootElement
 @Entity
 public class User implements Serializable {
     @Id
