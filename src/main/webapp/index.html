@@ -28,8 +28,33 @@ THE SOFTWARE.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/simpleAjax.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <h1>Course List</h1>
+        <div id="course-list"></div>
+        <script type="text/javascript">
+            document.onload = function() {
+                simpleAjax('GET', 'service/v1/courses/all?', fillPage);
+            }
+            
+            fillPage = function(req) {
+                if (req.status === 200) {
+                    var response = req.responseText;
+                    console.log(response);
+                    var courses = JSON.parse(response);
+                    courses.forEach(function(course) {
+                        document.getElementById('course-list').innerHTML+=
+                                "<div>" + couse.name + "</div>";
+                    });
+                }
+                else if (req.status === 400) {
+                   alert('There was an error 400');
+                }
+                else {
+                    alert('Status: '+req.status);
+                }
+            }
+        </script>
     </body>
 </html>
