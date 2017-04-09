@@ -40,10 +40,10 @@ import matruskan.entity.User;
 public class Courses {
 
     @PersistenceContext(unitName = "coursebuilder-PU")
-    private EntityManager em;
+    EntityManager em;
     
     @EJB
-    private Permissions permissions;
+    Permissions permissions;
 
     public List<Course> list(User user, String nameFilter, String orderBy, int page, int pageSize) {
         return em.createNamedQuery("list", Course.class)
