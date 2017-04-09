@@ -49,7 +49,7 @@ public class Courses {
         return em.createNamedQuery("list", Course.class)
                 .setParameter("creator", user)
                 .setParameter("name", "%" + nameFilter + "%")
-                .setParameter("orderColumn", orderBy)
+                .setParameter("orderBy", orderBy)
                 .setFirstResult(page * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
