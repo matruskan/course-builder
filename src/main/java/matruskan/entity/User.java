@@ -26,6 +26,7 @@ package matruskan.entity;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -35,9 +36,13 @@ import javax.persistence.Id;
 @Entity
 public class User implements Serializable {
     @Id
+    @GeneratedValue
     private Long id;
     private String username;
     private Set<Role> roles;
+
+    public User() {
+    }
 
     public User(String username) {
         this.username = username;

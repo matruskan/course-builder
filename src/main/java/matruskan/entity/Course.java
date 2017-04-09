@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -45,6 +46,7 @@ import javax.persistence.NamedQuery;
 )
 public class Course implements Serializable {
     @Id
+    @GeneratedValue
     private Long id;
     @ManyToOne(optional = false)
     @JoinColumn
@@ -59,6 +61,9 @@ public class Course implements Serializable {
     private BigDecimal price;
     @Column(precision = 5, scale = 1)
     private BigDecimal duration;
+
+    public Course() {
+    }
 
     public Long getId() {
         return id;
