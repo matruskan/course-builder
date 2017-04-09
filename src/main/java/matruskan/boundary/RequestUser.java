@@ -49,7 +49,7 @@ public class RequestUser {
     
     @Produces
     @RequestScoped
-    public User getUserFromJwt() {
+    public User getUserFromRequest() {
         User user = new User("Admin");
         user.setId(1L);
         user.setRoles(new HashSet<>(Arrays.asList(new Role("admin"))));

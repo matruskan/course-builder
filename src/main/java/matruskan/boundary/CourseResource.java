@@ -25,12 +25,16 @@ package matruskan.boundary;
 
 import java.net.URI;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import matruskan.control.Courses;
 import matruskan.control.exceptions.AccessDeniedException;
@@ -41,16 +45,18 @@ import matruskan.entity.User;
  *
  * @author matruskan
  */
-@Path("/v1/course")
+@RequestScoped
+@Path("/v1/courses")
 public class CourseResource {
 
-    @Inject
+    @EJB
     private Courses courses;
     @Inject
     private User creator;
 
     @GET
     @Path("/all")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Course> getCourses(@QueryParam("name") String name, @QueryParam("orderBy") String orderBy, @QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
         if (orderBy == null || orderBy.isEmpty()) {
             orderBy = "id";
@@ -63,6 +69,7 @@ public class CourseResource {
 
     @POST
     @Path("/new")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response createNew(Course course) {
         course.setCreator(creator);
         return Response.created(URI.create(courses.create(course).toString())).build();
@@ -70,6 +77,7 @@ public class CourseResource {
     
     @GET
     @Path("{courseId}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response getCourse(@PathParam("courseId") Long id) {
         try {
             return Response.ok(courses.getCourseById(creator, id)).build();
