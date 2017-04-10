@@ -28,6 +28,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,6 +43,8 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
     private String username;
+    @OneToMany
+    @JoinTable
     private Set<Role> roles;
 
     public User() {
