@@ -51,3 +51,36 @@ https://dev.mysql.com/downloads/connector/j/
 6. Place the .war file in `/standalone/deployments/`
 7. Start MySQL and create schema with `create schema if not exists coursebuilder;`
 8. start WildFly: `standalone.bat` (Windows) or `standalone.sh` (Other)
+
+# GlassFish
+
+It will try to load some old libs, so you should try to add to your pom:
+
+```xml
+<dependency>
+    <groupId>dom4j</groupId>
+    <artifactId>dom4j</artifactId>
+    <version>1.6.1</version>
+</dependency>
+<dependency>
+    <groupId>org.jboss.logging</groupId>
+    <artifactId>jboss-logging</artifactId>
+    <version>3.3.1.Final</version>
+</dependency>
+```
+
+And change GlassFish class-loader delegate `<class-loader delegate="true"/>` to false
+inside `glassfish-web.xml`.
+
+Alternatively, you might need to change Hibernate's version back to 4.X, or
+update jboss-loggin inside GlassFish modules.
+
+Then, you should change your persistence.xml, since JNDI names work differently.
+
+```xml
+    <jta-data-source>java:app/jdbc/CourseBuilderDS</jta-data-source>
+```
+
+Then... maybe you'll find another reason to run away from GlassFish :(
+
+I hope Payara will be more forgiving to developers.

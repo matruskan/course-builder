@@ -15,5 +15,5 @@
         <property name="User" value="root"/>
         <property name="Password" value="root"/>
     </jdbc-connection-pool>
-    <jdbc-resource jndi-name="java:app/jdbc/mysqlDS" pool-name="coursebuilder-pool" enabled="true" />
+    <jdbc-resource jndi-name="jdbc/CourseBuilderDS" pool-name="coursebuilder-pool" enabled="true" />
 </resources>
