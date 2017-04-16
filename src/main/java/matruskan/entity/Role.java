@@ -26,6 +26,7 @@ package matruskan.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class Role implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
@@ -63,6 +64,9 @@ public class Role implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Role[id:" + id + ", name:" + name + "]";
+    }
 }

@@ -26,7 +26,9 @@ package matruskan.entity;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -40,10 +42,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class User implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable
     private Set<Role> roles;
 
@@ -77,6 +79,9 @@ public class User implements Serializable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "User[Id:" + id + ", username: " + username + "]";
+    }
 }
