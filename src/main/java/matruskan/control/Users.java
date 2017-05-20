@@ -21,45 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package matruskan.boundary;
+package matruskan.control;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
-import matruskan.control.Users;
+import java.util.Arrays;
+import java.util.HashSet;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import matruskan.entity.Role;
 import matruskan.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * I won't bother with sessions, the current user will be taken from a JWT token
- * or something else (later).
- * 
- * For now, it will only return a custom admin user.
- * 
+ *
  * @author matruskan
  */
-@RequestScoped
-public class RequestUser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequestUser.class);
+@Stateless
+public class Users {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Users.class);
     
-    // Oh, this guy will bring us some cookies! :9
-    @Context
-    private HttpServletRequest httpServletRequest;
+    @PersistenceContext(unitName = "coursebuilder-PU")
+    EntityManager em;
     
-    @Inject
-    private Users users;
-    
-    @Produces
-    @RequestScoped
-    public User getUserFromRequest() {
-        // we should've gotten the user ID from the request, from a token,
-        // from the single sign-on server, but we'll leave that for later.
-        User user = users.getUser();
-        LOGGER.info("User that made the request: {}", user);
+    public User getUser() {
+        User user = em.find(User.class, 1l);
+        if (user == null) {
+            Role adminRole = new Role("admin");
+            adminRole = em.merge(adminRole);
+            LOGGER.info("Persisted adminRole: {}", adminRole);
+            user = new User("admin");
+            user.setId(1l);
+            user.setRoles(new HashSet<>(Arrays.asList(adminRole)));
+            user = em.merge(user);
+            LOGGER.info("Persisted user: {}", user);
+            em.flush();
+        }
         return user;
     }
-    
 }
