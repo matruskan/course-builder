@@ -12,7 +12,6 @@ https://dev.mysql.com/downloads/connector/j/
 3. Copy `mysql` folder to `/modules/system/layers/base/com/`
 4. Copy `mysql-connector-java-5.1.41-bin.jar` to `/modules/system/layers/base/com/mysql/main/`
 5. Open `configuration/standalone.xml` and find "datasources" and "drivers", and add this content:
-
 ```xml
     <datasources ...>
 
