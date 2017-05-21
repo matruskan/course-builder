@@ -47,6 +47,7 @@ https://dev.mysql.com/downloads/connector/j/
     </datasources>
 ```
 (change username/password/mysql-conector version if necessary)
+
 6. Place the .war file in `/standalone/deployments/`
 7. Start MySQL and create schema with `create schema if not exists coursebuilder;`
 8. start WildFly: `standalone.bat` (Windows) or `standalone.sh` (Other)
