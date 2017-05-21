@@ -123,4 +123,8 @@ public class Course implements Serializable {
         this.duration = duration;
     }
     
+    @Override
+    public String toString() {
+        return "Course[Id:" + id + ", name: " + name + "]";
+    }
 }
