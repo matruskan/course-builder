@@ -33,7 +33,8 @@ var simpleAjax = function(method, url, onReady) {
     if (method === 'POST') {
         xmlHttpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     }
-    xmlHttpRequest.responseType = 'json';
     xmlHttpRequest.open(method, url, true);
+    xmlHttpRequest.responseType = 'json';
+    xmlHttpRequest.setRequestHeader('Accept', 'application/json');
     xmlHttpRequest.send();
 };
