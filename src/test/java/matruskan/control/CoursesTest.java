@@ -103,14 +103,18 @@ public class CoursesTest {
     public void testCreate() throws Exception {
         System.out.println("create");
         Course course = new Course();
+        User creator = new User();
+        creator.setId(1l);
         Courses instance = new Courses();
         instance.em = mock(EntityManager.class);
         doAnswer(invocation -> {
-            ((Course)invocation.getArguments()[0]).setId(1l);
-            return null;
-        }).when(instance.em).persist(eq(course));
+            Course courseToMerge = ((Course)invocation.getArguments()[0]);
+            courseToMerge.setId(1l);
+            return courseToMerge;
+        }).when(instance.em).merge(eq(course));
+        doReturn(creator).when(instance.em).find(eq(User.class), eq(creator.getId()));
         Long expResult = 1l;
-        Long result = instance.create(course);
+        Long result = instance.save(creator, course);
         assertEquals(expResult, result);
     }
 

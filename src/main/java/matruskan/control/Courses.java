@@ -31,6 +31,8 @@ import javax.persistence.PersistenceContext;
 import matruskan.control.exceptions.AccessDeniedException;
 import matruskan.entity.Course;
 import matruskan.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,6 +40,7 @@ import matruskan.entity.User;
  */
 @Stateless
 public class Courses {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Courses.class);
 
     @PersistenceContext(unitName = "coursebuilder-PU")
     EntityManager em;
@@ -45,9 +48,10 @@ public class Courses {
     @EJB
     Permissions permissions;
 
-    public List<Course> list(User user, String nameFilter, String orderBy, int page, int pageSize) {
+    public List<Course> list(User creator, String nameFilter, String orderBy, int page, int pageSize) {
+        creator = em.find(User.class, creator.getId());
         return em.createNamedQuery("list", Course.class)
-                .setParameter("creator", user)
+                .setParameter("creator", creator)
                 .setParameter("name", "%" + nameFilter + "%")
                 .setParameter("orderBy", orderBy)
                 .setFirstResult(page * pageSize)
@@ -55,8 +59,11 @@ public class Courses {
                 .getResultList();
     }
     
-    public Long create(Course course) {
-        em.persist(course);
+    public Long save(User creator, Course course) {
+        creator = em.find(User.class, creator.getId());
+        course.setCreator(creator);
+        course = em.merge(course);
+        LOGGER.info("Saved course {} by creator {}", course, creator);
         return course.getId();
     }
     
