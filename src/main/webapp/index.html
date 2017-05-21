@@ -28,24 +28,48 @@ THE SOFTWARE.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/courseInfo.css">
         <script type="text/javascript" src="js/simpleAjax.js"></script>
+        <script type="text/javascript" src="js/courseInfo.js"></script>
     </head>
     <body>
         <h1>Course List</h1>
         <div id="course-list"></div>
+        <h1>Create New Course</h1>
+        <form action="service/v1/courses/new" method="post">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div>
+                <label for="subtitle">Subtitle</label>
+                <input type="text" id="subtitle" name="subtitle">
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <div>
+                <label for="price">Price</label>
+                <input type="number" step="0.01" id="price" name="price">
+            </div>
+            <div>
+                <label for="duration">Duration</label>
+                <input type="number" step="0.01" id="duration" name="duration">
+            </div>
+            <button type="submit">New Course</button>
+        </form>
         <script type="text/javascript">
-            document.onload = function() {
+            window.onload = function() {
                 simpleAjax('GET', 'service/v1/courses/all?', fillPage);
-            }
+            };
             
             fillPage = function(req) {
                 if (req.status === 200) {
-                    var response = req.responseText;
-                    console.log(response);
-                    var courses = JSON.parse(response);
+                    var courses = req.response;
                     courses.forEach(function(course) {
                         document.getElementById('course-list').innerHTML+=
-                                "<div>" + couse.name + "</div>";
+                                CourseInfo.outputCourse(course);
                     });
                 }
                 else if (req.status === 400) {
@@ -54,7 +78,7 @@ THE SOFTWARE.
                 else {
                     alert('Status: '+req.status);
                 }
-            }
+            };
         </script>
     </body>
 </html>
